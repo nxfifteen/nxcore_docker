@@ -1,0 +1,66 @@
+version: '3.7'
+services:
+    db:
+        container_name: db
+        restart: always
+        image: mysql
+        command: ["--default-authentication-plugin=mysql_native_password"]
+        #ports:
+        #    - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: symfony
+            MYSQL_USER: symfony
+            MYSQL_PASSWORD: symfony
+        networks:
+            - core
+        volumes:
+            - db:/var/lib/mysql
+
+    apache:
+        container_name: apache
+        restart: always
+        build:
+            context: ./
+            dockerfile: apache/Dockerfile
+        ports:
+            - "80:80"
+        environment:
+            APP_ENV: docker
+        depends_on: 
+            - db
+        networks:
+            - core
+        volumes:
+            - angular-dist:/var/www/html/public_frontend
+            - ./application/symfony-store:/var/www/html/public_store
+            - logs:/var/www/html/public_store/var/log
+            - cache:/var/www/html/public_store/var/cache
+            - vendor:/var/www/html/public_store/vendor
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        restart: always
+        container_name: db-pma
+        links:
+            - db
+        environment:
+            PMA_HOST: db
+            PMA_PORT: 3306
+            PMA_ARBITRARY: 1
+        ports:
+            - 8080:80
+        depends_on: 
+            - db
+        networks:
+            - core
+
+volumes:
+    angular-dist:
+    vendor:
+    cache:
+    logs:
+    db:
+
+networks:
+    core:

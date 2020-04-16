@@ -1,0 +1,6 @@
+httpadr=http://localhost
+invitecode=CHANGEME
+appsecret=CHANGEME
+
+frontendbranch=master
+storebranch=master

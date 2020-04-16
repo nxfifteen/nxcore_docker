@@ -1,0 +1,9 @@
+# *    *   * * * cd /var/www/html/public_store && /usr/local/bin/php bin/console auth:refresh:fitbit > /proc/1/fd/1 2>/proc/1/fd/2
+# *    *   * * * cd /var/www/html/public_store && /usr/local/bin/php bin/console cron:rpg:challenge:friends > /proc/1/fd/1 2>/proc/1/fd/2
+
+# */5  *   * * * cd /var/www/html/public_store && /usr/local/bin/php bin/console queue:fetch:fitbit > /proc/1/fd/1 2>/proc/1/fd/2
+# */5  *   * * * cd /var/www/html/public_store && /usr/local/bin/php bin/console queue:fetch:patreon > /proc/1/fd/1 2>/proc/1/fd/2
+
+# 50   23  * * * cd /var/www/html/public_store && /usr/local/bin/php bin/console history:download:fitbit > /proc/1/fd/1 2>/proc/1/fd/2
+
+# 5    */4 * * * cd /var/www/html/public_store && /usr/local/bin/php bin/console queue:populate:fitbit > /proc/1/fd/1 2>/proc/1/fd/2
